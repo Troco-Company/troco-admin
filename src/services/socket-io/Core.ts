@@ -1,5 +1,5 @@
 import { io, Socket } from "socket.io-client";
-const socketUrl = 'https://trocco-app-be.onrender.com';
+const socketUrl = 'https://trocco-app-be-wajg.onrender.com';
 
 
 let socket: Socket | null = null;
