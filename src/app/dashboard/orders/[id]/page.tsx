@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation';
 import errorAnim from '../../../../../public/lottie/error.json'
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 
-import React, { FormEvent, useMemo, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image';
 import ChatItemLayout from '@/components/groups/chat/ChatItemLayout';
 import { FaSmile, FaSpinner } from 'react-icons/fa';
@@ -15,6 +15,7 @@ import { useMutation } from '@tanstack/react-query';
 import { sendChat } from '@/services/rest-api/chat-api';
 import { toast } from 'sonner';
 import { Send} from 'iconsax-react';
+import { joinRoom } from '@/services/socket-io/Core';
 
 export default function ChatsPage() {
     const { id } = useParams();
@@ -34,6 +35,11 @@ export default function ChatsPage() {
         toast.error("Error sending chat");
       }
     });
+
+    useEffect(()=>{
+      joinRoom(`group:${id}`)
+    }, [id]);
+
 
     if(!order || !messages) return (
         <div className='w-full h-full rounded-2xl shadow-md box-border overflow-hidden'>
