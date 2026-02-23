@@ -35,7 +35,13 @@ export function QueryErrorBoundary({ children, message }: { children: React.Reac
     <QueryErrorResetBoundary>
       {({ reset }) => (
         <ErrorBoundary
-          FallbackComponent={(props) => <QueryErrorFallback {...props} message={message} />}
+          FallbackComponent={(props) => (
+            <QueryErrorFallback
+              error={props.error instanceof Error ? props.error : new Error(String(props.error))}
+              resetErrorBoundary={props.resetErrorBoundary}
+              message={message}
+            />
+          )}
           onReset={reset}
         >
           {children}
