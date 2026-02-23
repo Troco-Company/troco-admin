@@ -16,7 +16,7 @@
     "iconsax-react": "^0.0.8",
     "jspdf": "^2.5.1",
     "lottie-react": "^2.4.0",
-    "next": "15.2.5",
+    "next": "^16.1.6",
     "next-session": "^4.0.5",
     "react": "^19.0.0",
     "react-apexcharts": "^1.4.1",
