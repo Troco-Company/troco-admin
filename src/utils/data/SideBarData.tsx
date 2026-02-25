@@ -33,7 +33,7 @@ export const SideBarArray : SideBarData[] = [
   },
   {
     icon: <HugeiconsIcon icon={Megaphone02Icon} className='h-5 w-5' />,
-    path: routes.dashboard.users.path,
+    path: routes.dashboard.adverts.path,
     title: "Adverts",
   },
   

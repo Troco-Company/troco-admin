@@ -84,7 +84,7 @@ export default function NotificationsLayout({notifications}:props) {
     }), [notifs, filter])
 
     return (
-        <div className="absolute right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-lg z-20 w-fit h-fit">
+        <div className="absolute right-0 top-10 mt-2 bg-white border border-gray-200 rounded-md shadow-lg z-20 w-fit h-fit">
             <div className='py-2 px-5 max-h-[400px] h-fit w-[400px] overflow-y-auto custom-scrollbar flex flex-col gap-3'>
                 <p className="font-bold text-[20px] mb-2">Notifications</p>
                 <div className='flex justify-between'>

@@ -9,16 +9,15 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useMemo, useState } from 'react'
 import { FaUser } from 'react-icons/fa';
-import AestheticTabbar from '../switch/AestheticTabbar';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 interface props{
   search?: string,
+  filter: 'Online' | 'Offline' | 'all' | 'personal' | 'merchant' | 'business' | 'company',
 }
 
-export default function UsersTable({search=''}:props) {
+export default function UsersTable({search='', filter}:props) {
     const {users} = useUsers();
-    const [filter, setFilter] = useState<'Online' | 'Offline' | 'all'>('all')
     const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
@@ -58,8 +57,12 @@ export default function UsersTable({search=''}:props) {
       const category = (u.accountType ?? '').toLowerCase().trim().includes(search.trim().toLowerCase())
       const online = userOnline(u) && filter === 'Online';
       const offline = !userOnline(u) && filter === 'Offline';
+      const accountType = (u.accountType ?? '').toLowerCase().trim();
+      const accountMatch = ['personal', 'merchant', 'business', 'company'].includes(filter)
+        ? accountType === filter
+        : false;
 
-      return (name || category) && (filter == 'all' || online || offline) 
+      return (name || category) && (filter == 'all' || online || offline || accountMatch) 
     };
 
     const filteredUsers = useMemo(()=> users.filter(u => filterMethod(u)),[users, filter, search])
@@ -70,17 +73,17 @@ export default function UsersTable({search=''}:props) {
 
     const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   return (
-    <div className='rounded-lg shadow-lg w-full h-fit min-h-[400px] px-5 pb-5 bg-white mb-8'>
+    <div className='rounded-lg w-full h-fit min-h-[400px] px-5 pb-5 bg-white mb-8 border border-[#E5E7EB]'>
         <div className='flex items-center justify-between py-4 my-5'>
             <h1 className="text-[24px] font-bold">
                 {filter === "all" && "All Users"}
                 {filter === "Offline" && "Offline Users"}
                 {filter === "Online" && "Online Users"}
+                {filter === "personal" && "Personal Accounts"}
+                {filter === "merchant" && "Merchant Accounts"}
+                {filter === "business" && "Business Accounts"}
+                {filter === "company" && "Company Accounts"}
             </h1>
-
-            <div className='w-[300px]'>
-                <AestheticTabbar className='h-[40px]' tabs={['All', 'Online', 'Offline']} onSelectTab={(o) => setFilter(o === 0? 'all': o ===1? 'Online':'Offline')} index={filter === 'all'? 0:filter === 'Online'?1:2} />
-            </div>
         </div>
 
         <div className="w-full h-fit rounded-lg border border-separate border-spacing-0 overflow-hidden">
