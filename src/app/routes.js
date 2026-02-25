@@ -19,6 +19,9 @@ dashboard:{
     transactions:{
         path:"/dashboard/transactions"
     },
+    adverts:{
+        path:"/dashboard/adverts"
+    },
     orders:{
         path:"/dashboard/orders"
     },

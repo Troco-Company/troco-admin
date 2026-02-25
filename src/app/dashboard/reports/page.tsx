@@ -3,7 +3,6 @@
 import Routes from "@/app/routes";
 import PopupModal from "@/components/modal/PopupModal";
 import SearchBar from "@/components/search-bar/SearchBar";
-import AestheticTabbar from "@/components/switch/AestheticTabbar"
 import { useTransactions } from "@/providers/TransactionsProvider";
 import { useUsers } from "@/providers/UserProvider";
 import modalProps from "@/utils/interfaces/modal";
@@ -46,16 +45,43 @@ export default function ReportsPage() {
           <SearchBar placeholder='Search By Name' value={search} onChangeText={setSearch}/>
         </div>
 
+        <div className='w-full border-b border-[#E5E7EB]'>
+          <div className='flex items-center gap-10 text-[14px] font-semibold'>
+            <button
+              onClick={() => setType(0)}
+              className={`pb-3 pt-1 transition-colors duration-200 relative ${
+                type === 0
+                  ? 'text-black'
+                  : 'text-secondary hover:text-black'
+              }`}
+            >
+              Users
+              {type === 0 && (
+                <span className='absolute left-0 -bottom-[1px] h-[2px] w-full bg-themeColor rounded-full' />
+              )}
+            </button>
+            <button
+              onClick={() => setType(1)}
+              className={`pb-3 pt-1 transition-colors duration-200 relative ${
+                type === 1
+                  ? 'text-black'
+                  : 'text-secondary hover:text-black'
+              }`}
+            >
+              Transactions
+              {type === 1 && (
+                <span className='absolute left-0 -bottom-[1px] h-[2px] w-full bg-themeColor rounded-full' />
+              )}
+            </button>
+          </div>
+        </div>
+
         {/* Reported Users Table */}
-        <div className="rounded-lg shadow-lg w-full h-fit px-5 pb-5 bg-white mb-8">
+        <div className="rounded-lg w-full h-fit px-5 pb-5 bg-white mb-8 border border-[#E5E7EB]">
           
           {/* Head */}
           <div className='flex items-center justify-between py-4 my-5'>
             <h1 className="text-[24px] font-bold">Reported {type === 0? "Users":"Transactions"}</h1>
-
-            <div className='w-[300px]'>
-                <AestheticTabbar className='h-[40px]' tabs={['Users', 'Transactions']} onSelectTab={setType} index={type} />
-            </div>
           </div>
 
           {/* Table */}

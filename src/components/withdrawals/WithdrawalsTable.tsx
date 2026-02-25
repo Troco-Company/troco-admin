@@ -25,7 +25,7 @@ export default function WithdrawalsTable({search}:Record<string,string>) {
 
   
   return (
-    <div className="rounded-lg shadow-lg w-full h-fit p-5 bg-white mb-8">
+    <div className="rounded-lg w-full h-fit p-5 bg-white mb-8 border border-[#E5E7EB]">
       <h1 className="text-[24px] font-bold py-4 mb-5">All Withdrawals</h1>
       <div className='w-full h-fit rounded-lg border border-separate border-spacing-0 overflow-hidden'>
         <table className='w-full rounded-lg border table-fixed border-spacing-0 text-[14px] overflow-hidden'>

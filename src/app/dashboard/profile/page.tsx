@@ -70,7 +70,7 @@ export default function ViewAdminPage() {
             </div>
 
             {/* Admin Activity */}
-            <div className="rounded-2xl relative mb-4 shadow-lg bg-white pb-5 px-5 w-full h-fit max-h-[600px] custom-scrollbar overflow-y-scroll">
+            <div className="rounded-2xl relative mb-4 bg-white pb-5 px-5 w-full h-fit max-h-[600px] custom-scrollbar overflow-y-scroll border border-[#E5E7EB]">
                 <h1 className="text-[24px] font-bold w-full bg-white sticky top-0 z-10 pt-5 pb-3 text-black mb-4">{admin.role} Activities</h1>
                 <div className="w-full h-fit rounded-lg border border-separate border-spacing-0 overflow-hidden">
                 <table className="w-full rounded-lg border border-spacing-0 table-fixed text-[14px] overflow-hidden">

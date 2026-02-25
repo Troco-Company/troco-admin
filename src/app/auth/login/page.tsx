@@ -43,7 +43,7 @@ export default function LoginPage() {
         </div>
         <form className='flex flex-col gap-5' onSubmit={(e)=>{e.preventDefault(); loginMutation.mutate()}}>
             <input
-                className="p-3 border-2 rounded-2xl placeholder:text-secondary shadow-sm focus:outline-none focus:border-green-600 w-[400px] md:w-[95%] sm:max-w-[95%] "
+                className="p-3 border-2 bg-tertiary border-[#D6D6D6] rounded-2xl placeholder:text-secondary shadow-sm focus:outline-none focus:border-green-600 w-[400px] md:w-[95%] sm:max-w-[95%] "
                 onChange={(e) => { setEmail(e.target.value); }}
                 type="email"
                 required
