@@ -54,7 +54,7 @@ export default function TransactionTable({search=''}:props) {
   const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
     
   return (
-    <div className='rounded-lg shadow-lg w-full h-fit min-h-[400px] px-5 pb-5 bg-white mb-8'>
+    <div className='rounded-lg w-full h-fit min-h-[400px] px-5 pb-5 bg-white mb-8 border border-[#E5E7EB]'>
         <div className='flex items-center justify-between py-4 my-5'>
             <h1 className="text-[24px] font-bold">
                 {filter === "all" && "All Transactions"}

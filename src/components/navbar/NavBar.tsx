@@ -1,10 +1,7 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IoNotifications } from "react-icons/io5";
-import { FaCalculator } from "react-icons/fa";
-import { IoSearchCircleSharp } from "react-icons/io5";
-import { PiPaperPlaneTiltFill} from "react-icons/pi";
 import { toast} from "sonner";
 import Image from "next/image";
 import TrackTransaction from "@/components/transactions/TrackTransaction";
@@ -14,8 +11,8 @@ import FeeCalculator from "./FeeCalculator";
 import NotificationsLayout from "./NotificationsLayout";
 import { useAdmin } from "@/providers/AdminProvider";
 import SetAdminPin from "./SetAdminPin";
-import { Lock } from "iconsax-react";
-import { Colors } from "@/utils/Colors";
+import { HugeiconsIcon } from "@hugeicons/react";
+import {CalculatorIcon, LockPasswordIcon, MailSend01Icon, Notification01Icon, SearchDollarIcon} from '@hugeicons/core-free-icons'
 
 
 
@@ -55,35 +52,46 @@ const Navbar = () => {
       <div className="mb-3 flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white pl-3 pr-8 shadow-sm">
 
         <div className="flex flex-1 items-center justify-end justify-self-end gap-x-6">
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-tertiary">
-            <FaCalculator onClick={()=>setShowFeeCalculator(true)} title="Fee Calculator" className="cursor-pointer text-[16px] text-themeColor" />
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-tertiary" >
+            <div title="Fee Calculator">
+              <HugeiconsIcon icon={CalculatorIcon} onClick={()=>setShowFeeCalculator(true)} className="cursor-pointer w-5 h-5 text-secondary" />
+            </div>
 
             {showFeeCalculator && <FeeCalculator onCancel={()=> setShowFeeCalculator(false)} />}
 
           </div>
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-tertiary">
-            <PiPaperPlaneTiltFill onClick={()=>setShowBroadcastUI(true)} className="cursor-pointer text-[20px] text-themeColor" title="Broadcast Message"/>
+            <div title="Broadcast Message">
+              <HugeiconsIcon icon={MailSend01Icon} onClick={()=>setShowBroadcastUI(true)} className="cursor-pointer text-[20px] text-secondary w-5 h-5"/>
+            </div>
 
              {showBroadcastUI && <BroadcaseMessage onCancel={()=> setShowBroadcastUI(false)} />} 
           </div>
           <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-tertiary">
-            <IoSearchCircleSharp onClick={()=>setShowTrackUI(!showTrackUI)} className="cursor-pointer text-[20px] text-themeColor" title="Track Transaction" />
-
+            <div title="Track Transaction">
+              <HugeiconsIcon icon={SearchDollarIcon} onClick={()=>setShowTrackUI(!showTrackUI)} className="cursor-pointer text-[20px] text-secondary w-5 h-5"/>
+            </div>
+            
             {showTrackUI && (
               <TrackTransaction onCancel={()=>setShowTrackUI(false)}/>
             )}
           </div>
 
           {adminOnline.role === 'Super Admin' && <div className="flex h-9 w-9 items-center justify-center rounded-full bg-tertiary">
-            <Lock onClick={()=>setShowChangeAuthPin(true)} className="cursor-pointer text-[20px] text-themeColor" size={20} variant="Bold" color={Colors.secondary}/>
-
+            <div title="Change Portal Code">
+              <HugeiconsIcon icon={LockPasswordIcon} onClick={()=>setShowChangeAuthPin(true)} className="cursor-pointer text-[20px] text-secondary w-5 h-5"/>
+            </div>
+          
              {showChangeAuthPin && <SetAdminPin onCancel={()=> setShowChangeAuthPin(false)} />} 
           </div>}
 
           <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-tertiary">
-            <IoNotifications onClick={toggleNotifications} title="Notifications" className="cursor-pointer text-[20px] text-secondary" />
+            <div title="Notifications">
+              <HugeiconsIcon icon={Notification01Icon} onClick={toggleNotifications} className="cursor-pointer text-[20px] text-secondary w-5 h-5"/>
+            </div>
+          
             {unreadNotificationCount > 0 && (
-              <div className="absolute -right-1 -top-1 flex h-[18px] w-[18px] items-center justify-center rounded-full border-2 border-white bg-themeColor text-center text-[10px] font-semibold text-white">
+              <div className="absolute -right-1 -top-1 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-white bg-themeColor text-center text-[10px] font-semibold text-white">
                 <p>{unreadNotificationCount}</p>
               </div>
             )}

@@ -33,7 +33,7 @@ export default function ChargesPage() {
 
         <div className='w-full flex gap-7'>
             {/* Charges Table */}
-            <div className='flex flex-col flex-1 rounded-2xl bg-white shadow-lg p-5 pt-0 h-fit'>
+            <div className='flex flex-col flex-1 rounded-2xl bg-white border border-[#E5E7EB] p-5 pt-0 h-fit'>
                 <h1 className="text-[22px] font-bold w-full bg-white sticky top-0 z-10 pt-5 pb-3 text-black mb-4">All Charges</h1>
                 <div className='w-full h-fit rounded-lg border border-separate border-spacing-0 overflow-hidden'>
                   <table className="w-full rounded-lg border border-spacing-0 table-fixed text-[14px] overflow-hidden">

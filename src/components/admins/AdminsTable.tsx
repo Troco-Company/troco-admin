@@ -2,7 +2,6 @@
 
 import { AdminRole } from '@/utils/interfaces/admin';
 import React, { useMemo, useState } from 'react'
-import AestheticTabbar from '../switch/AestheticTabbar';
 import { useAdmins } from '@/hooks/admins-hook';
 import Routes from '@/app/routes';
 import { FaUser } from 'react-icons/fa6';
@@ -11,9 +10,9 @@ import { distinctStringList } from '@/utils/ArrayUtil';
 import { Colors } from '@/utils/Colors';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
-export default function AdminsTable({search}:{search:string}) {
-    const menus : (AdminRole | 'All')[] = ['All', 'Admin', 'Super Admin', 'Secretary', 'Customer Care'];
-    const [filter, setFilter] = useState<AdminRole | 'All'>('All')
+type AdminFilter = AdminRole | 'All';
+
+export default function AdminsTable({search, filter}:{search:string; filter: AdminFilter}) {
     const router = useRouter()
     const admins = useAdmins();
     const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +26,7 @@ export default function AdminsTable({search}:{search:string}) {
 
 
   return (
-    <div className='rounded-lg shadow-lg w-full h-fit min-h-[400px] px-5 pb-5 bg-white mb-8'>
+      <div className='rounded-lg w-full h-fit min-h-[400px] px-5 pb-5 bg-white mb-8 border border-[#E5E7EB]'>
       <div className='flex items-center justify-between py-4 my-5'>
         <h1 className="text-[24px] font-bold">
             {filter === "All" && "All Admins"}
@@ -36,10 +35,6 @@ export default function AdminsTable({search}:{search:string}) {
             {filter === "Secretary" && "Secretaries"}
             {filter === "Admin" && "Admins"}
         </h1>
-
-        <div className='w-[500px]'>
-            <AestheticTabbar className='h-[40px]' tabs={menus} onSelectTab={(index)=>setFilter(menus[index])} index={menus.indexOf(filter)} />
-        </div>
       </div>
 
       <div className="w-full h-fit rounded-lg border border-separate border-spacing-0 overflow-hidden">
