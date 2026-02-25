@@ -52,52 +52,52 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="w-full justify-between items-center flex py-5 pr-12 pl-3 bg-white h-[80px] shadow-sm mb-3">
+      <div className="mb-3 flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white pl-3 pr-8 shadow-sm">
 
-        <div className="flex flex-1 justify-end items-center gap-x-10 justify-self-end">
-          <div className="relative flex items-center justify-center rounded-[50%] w-[41px] h-[41px] bg-tertiary">
-            <FaCalculator onClick={()=>setShowFeeCalculator(true)} title="Fee Calculator" className="cursor-pointer text-[19px] text-themeColor" />
+        <div className="flex flex-1 items-center justify-end justify-self-end gap-x-6">
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-tertiary">
+            <FaCalculator onClick={()=>setShowFeeCalculator(true)} title="Fee Calculator" className="cursor-pointer text-[16px] text-themeColor" />
 
             {showFeeCalculator && <FeeCalculator onCancel={()=> setShowFeeCalculator(false)} />}
 
           </div>
-          <div className="flex items-center justify-center rounded-[50%] w-[41px] h-[41px] bg-tertiary">
-            <PiPaperPlaneTiltFill onClick={()=>setShowBroadcastUI(true)} className="cursor-pointer text-[25px] text-themeColor" title="Broadcast Message"/>
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-tertiary">
+            <PiPaperPlaneTiltFill onClick={()=>setShowBroadcastUI(true)} className="cursor-pointer text-[20px] text-themeColor" title="Broadcast Message"/>
 
              {showBroadcastUI && <BroadcaseMessage onCancel={()=> setShowBroadcastUI(false)} />} 
           </div>
-          <div className="relative flex items-center justify-center rounded-[50%] w-[41px] h-[41px] bg-tertiary">
-            <IoSearchCircleSharp onClick={()=>setShowTrackUI(!showTrackUI)} className="cursor-pointer text-[25px] text-themeColor" title="Track Transaction" />
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-tertiary">
+            <IoSearchCircleSharp onClick={()=>setShowTrackUI(!showTrackUI)} className="cursor-pointer text-[20px] text-themeColor" title="Track Transaction" />
 
             {showTrackUI && (
               <TrackTransaction onCancel={()=>setShowTrackUI(false)}/>
             )}
           </div>
 
-          {adminOnline.role === 'Super Admin' && <div className="flex items-center justify-center rounded-[50%] w-[41px] h-[41px] bg-tertiary">
-            <Lock onClick={()=>setShowChangeAuthPin(true)} className="cursor-pointer text-[25px] text-themeColor" size={25} variant="Bold" color={Colors.secondary}/>
+          {adminOnline.role === 'Super Admin' && <div className="flex h-9 w-9 items-center justify-center rounded-full bg-tertiary">
+            <Lock onClick={()=>setShowChangeAuthPin(true)} className="cursor-pointer text-[20px] text-themeColor" size={20} variant="Bold" color={Colors.secondary}/>
 
              {showChangeAuthPin && <SetAdminPin onCancel={()=> setShowChangeAuthPin(false)} />} 
           </div>}
 
-          <div className="relative rounded-[50%] p-2 bg-tertiary">
-            <IoNotifications onClick={toggleNotifications} title="Notifications" className="cursor-pointer text-[25px] text-secondary" />
+          <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-tertiary">
+            <IoNotifications onClick={toggleNotifications} title="Notifications" className="cursor-pointer text-[20px] text-secondary" />
             {unreadNotificationCount > 0 && (
-              <div className="absolute flex items-center justify-center top-0 -right-1 h-[22px] w-[22px] rounded-full border-[3px] border-white text-white text-sm font-semibold text-center bg-themeColor">
+              <div className="absolute -right-1 -top-1 flex h-[18px] w-[18px] items-center justify-center rounded-full border-2 border-white bg-themeColor text-center text-[10px] font-semibold text-white">
                 <p>{unreadNotificationCount}</p>
               </div>
             )}
             {showNotifications && <NotificationsLayout notifications={notifications} />}
           </div>
 
-          <div className="flex items-center gap-x-5">
+          <div className="flex items-center gap-x-3">
             <div className="flex flex-col">
-              <p className="font-bold text-[15px]">
+              <p className="text-[14px] font-semibold leading-tight">
                 {adminOnline && adminOnline.username && adminOnline.username.charAt(0).toUpperCase() + adminOnline.username.slice(1)}
               </p>
-              <p className="text-gray-500 font-medium text-[11px]">{adminOnline?.role}</p>
+              <p className="text-[10px] font-medium text-gray-500">{adminOnline?.role}</p>
             </div>
-            <Image src='/images/profile_img.png' width={70} height={70} objectFit='cover' alt="profile-icon" />
+            <Image src='/images/profile_img.png' width={52} height={52} objectFit='cover' alt="profile-icon" className="h-[52px] w-[52px]" />
           </div>
         </div>
 

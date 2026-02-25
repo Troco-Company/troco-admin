@@ -2,16 +2,9 @@
 import routes from '@/app/routes';
 import { useAdmin } from '@/providers/AdminProvider';
 import { JSX } from 'react';
-import { FaUserCircle, FaUsers } from 'react-icons/fa'
-import { TbCashBanknoteFilled } from "react-icons/tb";
-import { FaRepeat } from "react-icons/fa6";
-import { HiUserGroup } from "react-icons/hi"
-import { IoWallet } from 'react-icons/io5';
-import { GrMoney } from 'react-icons/gr';
-import { MdSpaceDashboard } from "react-icons/md";
-import { PiWarningCircleFill, PiWechatLogoFill } from "react-icons/pi";
-import { RiCustomerService2Fill, RiVerifiedBadgeFill } from "react-icons/ri";
-import { LogoutCurve } from 'iconsax-react';
+import { HugeiconsIcon } from '@hugeicons/react'
+import { AlertCircleIcon, CustomerSupportIcon, GiftIcon, LogoutSquare01Icon, Megaphone02Icon, MentoringIcon, NewReleasesIcon, PercentCircleIcon, ShoppingBasket03Icon, TransactionIcon, UserCircleIcon, UserGroup02Icon, Wallet03Icon } from '@hugeicons/core-free-icons'
+import { Element2 } from 'iconsax-react';
 
 export type SideBarData = {
     icon: JSX.Element,
@@ -23,19 +16,25 @@ export type SideBarData = {
 
 export const SideBarArray : SideBarData[] = [
   {
-    icon: <MdSpaceDashboard className=" w-[25px] h-[25px]"/> ,
+    icon: <Element2 color='currentColor' className="h-5 w-5"/> ,
     path: routes.dashboard.path,
     title: "Dashboard",
   },
   {
-    icon: <FaUsers className="w-[25px] h-[25px]"/>,
+    icon: <HugeiconsIcon icon={UserGroup02Icon} className='h-5 w-5' />,
     path: routes.dashboard.users.path,
     title: "Users",
   },
+  
   {
-    icon: <FaRepeat className=" w-[25px] h-[25px]"/>,
+    icon: <HugeiconsIcon icon={TransactionIcon} className='h-5 w-5' />,
     path: routes.dashboard.transactions.path,
     title: "Transactions",
+  },
+  {
+    icon: <HugeiconsIcon icon={Megaphone02Icon} className='h-5 w-5' />,
+    path: routes.dashboard.users.path,
+    title: "Adverts",
   },
   
 ]; 
@@ -47,13 +46,14 @@ export const useSideBarMenu = (): SideBarData[] =>{
   if(!admin) return basicData;
 
   if(admin.role !== 'Admin'){
+    
       basicData.push({
-      icon: <RiVerifiedBadgeFill className="w-[25px] h-[25px]"/>,
+      icon: <HugeiconsIcon icon={NewReleasesIcon} className='h-5 w-5' />,
       path: routes.dashboard.kyc.path,
-      title: "Kyc",
+      title: "KYC Verifications",
     },
     {
-      icon: <PiWarningCircleFill className="w-[25px] h-[25px]"/>,
+      icon: <HugeiconsIcon icon={AlertCircleIcon} className='h-5 w-5' />,
       path: routes.dashboard.reports.path,
       title: "Reports",
     },
@@ -62,7 +62,7 @@ export const useSideBarMenu = (): SideBarData[] =>{
 
   if(admin.role === 'Secretary' || admin.role === 'Super Admin'){
     basicData.push({
-      icon: <TbCashBanknoteFilled className='w-[25px] h-[25px]' />,
+      icon: <HugeiconsIcon icon={PercentCircleIcon} className='h-5 w-5' />,
       title: 'Charges',
       path: routes.dashboard.charges.path
     })
@@ -70,23 +70,23 @@ export const useSideBarMenu = (): SideBarData[] =>{
 
   if(admin.role === 'Admin' || admin.role === 'Super Admin'){
     basicData.push({
-      icon: <HiUserGroup className='w-[25px] h-[25px]' />,
-      title: admin.role === 'Admin'? 'Your Orders' : 'Orders',
+      icon: <HugeiconsIcon icon={ShoppingBasket03Icon} className='h-5 w-5' />,
+      title: 'Orders',
       path: routes.dashboard.orders.path
     });
   }
 
   if(admin.role === 'Customer Care'){
     basicData.push({
-      icon: <PiWechatLogoFill className='w-[25px] h-[25px]' />,
-      title:'Sessions',
+      icon: <HugeiconsIcon icon={CustomerSupportIcon} className='h-5 w-5' />,
+      title:'Customer Sessions',
       path: routes.dashboard.sessions.path
     });
   }
 
   if(admin.role === 'Super Admin'){
     basicData.push({
-      icon: <RiCustomerService2Fill className='w-[25px] h-[25px]' />,
+      icon: <HugeiconsIcon icon={MentoringIcon} className='h-5 w-5' />,
       title:'Admins',
       path: routes.dashboard.allAdmin.path
     });
@@ -94,23 +94,23 @@ export const useSideBarMenu = (): SideBarData[] =>{
 
   if(admin.role === 'Super Admin' || admin.role === 'Secretary'){
     basicData.push({
-      icon: <IoWallet className='w-[25px] h-[25px]' />,
+      icon: <HugeiconsIcon icon={Wallet03Icon} className='h-5 w-5' />,
       title:'Withdrawals',
       path: routes.dashboard.withdrawal.path
     },{
-      icon: <GrMoney className='w-[25px] h-[25px]' />,
+      icon: <HugeiconsIcon icon={GiftIcon} className='h-5 w-5' />,
       title:'Bonuses',
       path: routes.dashboard.bonuses.path
     })
   }
 
   basicData.push({
-      icon: <FaUserCircle className='w-[25px] h-[25px]' />,
+      icon: <HugeiconsIcon icon={UserCircleIcon} className='h-5 w-5' />,
       title:'Profile',
       path: routes.dashboard.profile.path
     }, {
       title: "Logout",
-      icon: <LogoutCurve variant='Bold' size={'25px'} color='red' className='text-red' />,
+      icon: <HugeiconsIcon icon={LogoutSquare01Icon} className='h-5 w-5' />,
       path:"",
       negative: true,
       onClick: logout});

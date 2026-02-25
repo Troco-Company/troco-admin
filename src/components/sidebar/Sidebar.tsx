@@ -9,54 +9,116 @@ import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 
 export default function SideBar() {
-     const [expand, expandDrawer] = useState<boolean>(true);
-    // const {admin} = useAdmin();
+    const [expand, expandDrawer] = useState<boolean>(true);
     const router = useRouter();
     const pathName = usePathname();
 
     const menus = useSideBarMenu();
 
-  return (
-    <div className={`flex h-screen overflow-hidden flex-col bg-white shadow-sm ${expand? 'w-[285px]': 'w-[103px]'} ease duration-500 transition-all allow-discrete`}>
-                <div className='flex p-5 border-b h-[80px] items-center gap-3 w-full overflow-hidden'>
-                    <HambergerMenu onClick={()=>expandDrawer(!expand)} color={'#000'} className={`w-[32px] h-[32px] cursor-pointer font-bold ${expand? 'rotate-0' : 'rotate-180'} duration-500 transition-all ease`} />
-                    <Image onClick={()=>router.replace(Routes.dashboard.path)} src={'/images/dashboard/troco.png'} className={`${expand? 'block' :'hidden w-0'} ease transition-all duration-500`} objectFit='contain'  alt='troco' width={130} height={32} />
-                </div>
-                <div className='w-full flex-1 overflow-hidden overflow-y-scroll custom-scrollbar'>
-                  <div className='w-full h-fit flex flex-col gap-2'>
-                    {menus.map((item, index) => (
-              <div key={index} style={{marginTop:index===0?'40px':'0'}} className='flex px-5 overflow-hidden items-center'>
-              {/* {(SideBarArray.indexOf(item) === 0? pathName === item.path:pathName.startsWith(item.path)) && (
-                <div className="w-[5px] h-[50px] rounded-r-lg bg-themeColor" />
-              )} */}
-              <Link  href={item.path}
-              onClick={!item.negative? undefined: (e)=>{
-                e.preventDefault();
-                e.stopPropagation();
+    const menusWithIndex = menus.map((item, index) => ({ item, index }));
+    const bottomMenus = menusWithIndex.filter(
+      ({ item }) => item.negative || item.path === Routes.dashboard.profile.path,
+    );
+    const mainMenus = menusWithIndex.filter(
+      ({ item }) => !item.negative && item.path !== Routes.dashboard.profile.path,
+    );
 
-                if(item.onClick){
-                  item.onClick();
+    const isActiveRoute = (itemPath: string, index: number, negative?: boolean) => {
+      if (negative || !itemPath) return false;
+      return index === 0 ? pathName === itemPath : pathName.startsWith(itemPath);
+    };
+
+    const renderMenuItem = (item: (typeof menus)[number], index: number) => {
+      const isActive = isActiveRoute(item.path, index, item.negative);
+
+      return (
+        <Link
+          key={`${item.title}-${index}`}
+          href={item.path}
+          onClick={
+            !item.negative
+              ? undefined
+              : (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  if (item.onClick) {
+                    item.onClick();
+                  }
                 }
-              }}
-                className={`${(index === 0? pathName === item.path:pathName.startsWith(item.path))
-                  ? "text-white bg-themeColor"
-                  : "text-secondary"
-                  } ${item.negative? 'text-red-500 bg-white':''} justify-start rounded-xl p-5 h-[60px] w-full px-5 font-semibold text-sm flex items-center gap-x-5 relative`}>
-    
-    
-                <div className={`w-[20px] ${(index === 0? pathName === item.path:pathName.startsWith(item.path))? 'text-white':'text-themeColor'}  ${item.negative? 'text-red-500':''}`}>
-                  {item.icon}
-                </div>
-    
-                <span className={`flex-1 text-start  ${item.negative? 'text-red-500':''} ${expand?'':'text-transparent'} whitespace-nowrap text-ellipsis  text-[16px] font-semibold`}>
-                  {item.title}
-                </span>
-              </Link>
-              </div>
-            ))}
-                  </div>
+          }
+          className={`group flex h-11 w-full items-center rounded-lg px-3 text-[14px] font-medium transition-all duration-200 ${
+            expand ? 'justify-start gap-3' : 'justify-center'
+          } ${
+            isActive
+              ? 'bg-themeColor/15 text-themeColor'
+              : item.negative
+              ? 'text-red-500 hover:bg-red-50'
+              : 'text-slate-500 hover:bg-slate-100 hover:text-slate-500'
+          }`}
+        >
+          <span className='shrink-0 text-current'>{item.icon}</span>
 
-                </div>
-            </div>
+          <span
+            className={`whitespace-nowrap text-[14px] ${
+              expand ? 'max-w-full opacity-100' : 'max-w-0 overflow-hidden opacity-0'
+            } ${item.negative ? 'text-red-500' : ''} transition-all duration-200`}
+          >
+            {item.title}
+          </span>
+        </Link>
+      );
+    };
+
+  return (
+    <aside
+      className={`flex h-screen flex-col overflow-hidden border-r border-slate-200 bg-white transition-all duration-300 ease-in-out ${
+        expand ? 'w-[248px]' : 'w-[84px]'
+      }`}
+    >
+      <div
+        className={`flex h-16 items-center border-b border-slate-200 px-4 ${
+          expand ? 'gap-3' : 'justify-center'
+        }`}
+      >
+        <button
+          onClick={() => expandDrawer(!expand)}
+          className='flex h-9 w-9 items-center justify-center rounded-md text-slate-700 transition hover:bg-slate-100'
+          aria-label='Toggle sidebar'
+        >
+          <HambergerMenu
+            color={'currentColor'}
+            className={`h-6 w-6 ${expand ? 'rotate-0' : 'rotate-180'} transition-transform duration-300 ease-in-out`}
+          />
+        </button>
+
+        {expand && (
+          <Image
+            onClick={() => router.replace(Routes.dashboard.path)}
+            src={'/images/dashboard/troco.png'}
+            className='h-auto w-[104px] cursor-pointer object-contain'
+            alt='troco'
+            width={104}
+            height={26}
+          />
+        )}
+      </div>
+
+      <div className='flex min-h-0 flex-1 flex-col'>
+        <div className='custom-scrollbar flex-1 overflow-y-auto py-4'>
+          <nav className='flex w-full flex-col gap-1 px-3'>
+            {mainMenus.map(({ item, index }) => renderMenuItem(item, index))}
+          </nav>
+        </div>
+
+        {bottomMenus.length > 0 && (
+          <div className='border-t border-slate-200 px-3 py-3'>
+            <nav className='flex w-full flex-col gap-1'>
+              {bottomMenus.map(({ item, index }) => renderMenuItem(item, index))}
+            </nav>
+          </div>
+        )}
+      </div>
+    </aside>
   )
 }
