@@ -5,11 +5,11 @@ import Button from '@/components/Button';
 import LoadingLayout from '@/components/loading/LoadingLayout';
 import { useAdmin } from '@/providers/AdminProvider';
 import { convertApiMethod } from '@/providers/UserProvider';
-import { approveAdvertisement, deleteAdvertisement, getPendingAdvertisements } from '@/services/rest-api/advert-api';
+import { approveAdvertisement, deleteAdvertisement, getActiveAdvertisements, getPendingAdvertisements, rejectAdvertisement } from '@/services/rest-api/advert-api';
 import formatDate from '@/utils/DateFormat';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import React, { useMemo } from 'react';
 import { toast } from 'sonner';
 import loadingAnim from '../../../../../public/lottie/loading_water.json';
@@ -19,12 +19,19 @@ export default function AdvertDetailsPage() {
   const { id } = useParams();
   const router = useRouter();
   const { admin } = useAdmin();
+  const searchParams = useSearchParams();
 
   const advertId = id?.toString() ?? '';
+  const statusParam = searchParams.get('status');
+  const advertStatus = statusParam === 'active' ? 'active' : 'pending';
 
   const advertsQuery = useQuery({
-    queryKey: ['adverts', 'pending'],
-    queryFn: () => convertApiMethod(getPendingAdvertisements(true)),
+    queryKey: ['adverts', advertStatus],
+    queryFn: () => convertApiMethod(
+      advertStatus === 'active'
+        ? getActiveAdvertisements(true)
+        : getPendingAdvertisements(true),
+    ),
     notifyOnChangeProps: ['data', 'dataUpdatedAt'],
     refetchInterval: 3.1 * 1000,
   });
@@ -49,7 +56,7 @@ export default function AdvertDetailsPage() {
   const deleteMutation = useMutation({
     mutationFn: async () => {
       if (!admin?._id || !advert) throw new Error('Missing admin or advert');
-      return deleteAdvertisement({ advertId: advert._id, adminId: admin._id }, true);
+      return advertStatus == 'pending'? rejectAdvertisement({advertId: advert._id, admidId: admin._id}, true) :  deleteAdvertisement({ advertId: advert._id, adminId: admin._id }, true);
     },
     onSuccess: () => {
       toast.success('Advertisement deleted successfully');
@@ -63,7 +70,13 @@ export default function AdvertDetailsPage() {
   }
 
   if (!advert) {
-    return <LoadingLayout className='h-full' lottie={errorAnim} label='Pending advert not found' />;
+    return (
+      <LoadingLayout
+        className='h-full'
+        lottie={errorAnim}
+        label={advertStatus === 'active' ? 'Active advert not found' : 'Pending advert not found'}
+      />
+    );
   }
 
   return (
@@ -92,7 +105,7 @@ export default function AdvertDetailsPage() {
 
             <div className='rounded-lg border p-4'>
               <p className='text-xs text-secondary font-semibold'>STATUS</p>
-              <p className='font-medium capitalize text-orange-700'>{advert.status}</p>
+              <p className={`font-medium capitalize ${advert.status == 'active'? 'text-themeColor' : "text-orange-700"}`}>{advert.status}</p>
             </div>
 
             <div className='rounded-lg border p-4'>
@@ -119,14 +132,16 @@ export default function AdvertDetailsPage() {
           </div>
 
           <div className='w-full flex flex-col sm:flex-row items-center gap-3'>
+            {advertStatus === 'pending' && (
+              <Button
+                title='Approve Advert'
+                loading={approveMutation.isPending}
+                disabled={deleteMutation.isPending || !admin?._id}
+                onClick={() => approveMutation.mutate()}
+              />
+            )}
             <Button
-              title='Approve Advert'
-              loading={approveMutation.isPending}
-              disabled={deleteMutation.isPending || !admin?._id}
-              onClick={() => approveMutation.mutate()}
-            />
-            <Button
-              title='Delete Advert'
+              title={advertStatus == 'pending'? 'Reject Advert' :'Delete Advert'}
               negative={true}
               loading={deleteMutation.isPending}
               disabled={approveMutation.isPending || !admin?._id}

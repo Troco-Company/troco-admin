@@ -197,7 +197,7 @@ export default function AdvertsPage() {
               <p className='text-sm text-secondary mb-3'>Showing active adverts (read-only)</p>
               <div className='grid grid-cols-1 gap-5'>
                 {filteredActive.map((advert) => (
-                  <div key={advert._id} className='border rounded-xl p-4 hover:bg-[#F9F8F6] transition-colors duration-300'>
+                  <div onClick={() => router.push(`${Routes.dashboard.adverts.path}/${advert._id}?status=active`)} key={advert._id} className='border cursor-pointer rounded-xl p-4 hover:bg-[#F9F8F6] transition-colors duration-300'>
                     <div className='relative w-full aspect-[4/1] rounded-lg overflow-hidden bg-tertiary'>
                       <Image src={advert.image} alt='advert banner' fill className='object-cover' />
                     </div>

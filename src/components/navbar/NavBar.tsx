@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useMemo, useState } from "react";
-import { IoNotifications } from "react-icons/io5";
 import { toast} from "sonner";
 import Image from "next/image";
 import TrackTransaction from "@/components/transactions/TrackTransaction";
@@ -49,7 +48,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="mb-3 flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white pl-3 pr-8 shadow-sm">
+      <div className="flex h-16 w-full items-center justify-between border-b border-slate-200 bg-white pl-3 pr-8 shadow-sm">
 
         <div className="flex flex-1 items-center justify-end justify-self-end gap-x-6">
           <div className="relative flex h-9 w-9 items-center justify-center rounded-full bg-tertiary" >
